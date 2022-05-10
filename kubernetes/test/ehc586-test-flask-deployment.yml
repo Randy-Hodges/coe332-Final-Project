@@ -19,7 +19,7 @@ spec:
             containers:
                 - name: app-test-flask-deployment
                   imagePullPolicy: Always
-                  image: etchi17/windtx:final
+                  image: etchi17/test-img:final
                   command: ['python3', 'app.py']
                   ports:
                   - name: http
