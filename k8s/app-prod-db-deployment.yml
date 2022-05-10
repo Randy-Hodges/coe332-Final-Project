@@ -1,0 +1,31 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-prod-db-deployment
+  labels:
+    app: app-prod-db
+    env: prod
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app-prod-db
+  template:
+    metadata:
+      labels:
+        app: app-prod-db
+        env: prod
+    spec:
+      containers:
+        - name: app-prod-db
+          image: redis:6.2.3
+          imagePullPolicy: Always
+          command: ["redis-server"]
+          volumeMounts:
+          - name: app-prod-db-pvc
+            mountPath: "/data"
+      volumes:
+      - name: app-prod-db-pvc
+        persistentVolumeClaim:
+          claimName: app-prod-db-pvc
