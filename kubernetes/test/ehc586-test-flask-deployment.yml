@@ -2,11 +2,10 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: ehc586-test-flask-deployment
+    name: app-test-flask-deployment
     labels:
-        username: ehc586
         env: test
-        app: ehc586-test-flask
+        app: app-test-flask
 spec:
     replicas: 2
     selector:
@@ -15,12 +14,12 @@ spec:
     template:
         metadata:
             labels:
-                app: ehc586-test-flask
+                app: app-test-flask
         spec:
             containers:
-                - name: ehc586-test-flask-deployment
+                - name: app-test-flask-deployment
                   imagePullPolicy: Always
-                  image: etchi17/kubs:hw6
+                  image: etchi17/windtx:final
                   command: ['python3', 'app.py']
                   ports:
                   - name: http
