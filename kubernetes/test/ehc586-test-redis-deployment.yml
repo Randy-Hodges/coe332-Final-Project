@@ -2,32 +2,31 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: ehc586-test-redis-deployment
+    name: app-test-redis-deployment
     labels:
-        username: ehc586
         env: test
-        app: ehc586-test-redis
+        app: app-test-redis
 spec:
     replicas: 1
     selector:
         matchLabels:
-            app: ehc586-test-redis
+            app: app-test-redis
     template:
         metadata:
             labels:
-                app: ehc586-test-redis
+                app: app-test-redis
         spec:
             containers:
-                - name: ehc586-test-redis-deployment
+                - name: app-test-redis-deployment
                   imagePullPolicy: Always
                   image: redis:6
                   ports:
                   - name: http
                     containerPort: 6379
                   volumeMounts:
-                  - name: ehc586-test-redis
+                  - name: app-test-redis
                     mountPath: "/data"
             volumes:
-            - name: ehc586-test-redis
+            - name: app-test-redis
               persistentVolumeClaim:
-                  claimName: ehc586-test-redis
+                  claimName: app-test-redis
