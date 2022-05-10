@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: app-prod-api
-          image: ehc586/app-api:${TAG}
+          image: etchi17/app-api:${TAG}
           imagePullPolicy: Always
           env:
           - name: REDIS_IP
