@@ -1,0 +1,29 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-prod-api-deployment
+  labels:
+    app: app-prod-api
+    env: prod
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app-prod-api
+  template:
+    metadata:
+      labels:
+        app: app-prod-api
+        env: prod
+    spec:
+      containers:
+        - name: app-prod-api
+          image: wallen/app-api:${TAG}
+          imagePullPolicy: Always
+          env:
+          - name: REDIS_IP
+            value: ${RIP}
+          ports:
+          - name: http
+            containerPort: 5000
