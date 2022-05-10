@@ -24,17 +24,17 @@ def info():
 
 """
 
-
+# NOTE: need to heavily edit this
 @app.route('/data', methods=['POST', 'GET'])
 def download_data(): 
     """
-    API route for adding raw meteorite landing data to the dabase.
+    Fill out
     """
     if request.method == 'POST':
 
         rd.flushdb()
 
-        with open('ML_Data_Sample.json', 'r') as f:
+        with open('ML_Data_Sample.json', 'r') as f: # need our data
             ml_data = json.load(f)
 
         for item in ml_data['meteorite_landings']:
