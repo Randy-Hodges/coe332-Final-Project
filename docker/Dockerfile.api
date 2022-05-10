@@ -1,8 +1,9 @@
 FROM python:3.9
 
 RUN pip3 install Flask==2.0.3 \
-                 redis==4.1.4 \
-                 hotqueue==0.2.8
+                 redis==4.2.1 \
+                 hotqueue==0.2.8 \
+                 pytest==7.0.1
 
 COPY ./src/* /app/
 COPY ./ML_Data_Sample.json /app/ML_Data_Sample.json
