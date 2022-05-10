@@ -1,0 +1,26 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-prod-wrk-deployment
+  labels:
+    app: app-prod-wrk
+    env: prod
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: app-prod-wrk
+  template:
+    metadata:
+      labels:
+        app: app-prod-wrk
+        env: prod
+    spec:
+      containers:
+        - name: app-prod-wrk
+          image: ehc586/app-wrk:${TAG}
+          imagePullPolicy: Always
+          env:
+          - name: REDIS_IP
+            value: ${RIP}
