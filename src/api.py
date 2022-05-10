@@ -2,6 +2,7 @@ import json
 import csv
 import glob
 import logging
+from operator import truediv
 from flask import Flask, request
 from jobs import rd, q, add_job, get_job_by_id
 
@@ -9,25 +10,14 @@ app = Flask(__name__)
 
 
 @app.route('/', methods=['GET'])
-def info():
-    """
-    Informational
-    """
+def disp_info():
+    return info()
 
-    return """
-  Try the following routes:
+@app.route('/<any>', methods=['GET'])
+def help(any):
+    return info()
 
-  /                GET    informational
-  /data            GET    read data in database
-  /data            POST   upload data to database
-    
-  /jobs            GET    info on how to submit job
-  /jobs            POST   submit job
-  /jobs/<jobid>    GET    info on job
 
-"""
-
-# NOTE: need to heavily edit this
 @app.route('/data', methods=['POST', 'GET'])
 def download_data(): 
     """
@@ -36,18 +26,19 @@ def download_data():
     if request.method == 'POST':
 
         rd.flushdb()
-        import glob
-        path = "/POWER_Regional*.csv"
+        path = "../POWER_Regional*.csv"
         filenames = glob.glob(path)
+        print(f"{len(filenames)} found" )
         for count, filename in enumerate(filenames):
             logging.debug(f"{filename} going" )
             make_json(filename, "weather_data.json")
                                     
             # NOTE: Could grep a date in the filename to make the keys more consistent
             with open("weather_data.json") as f:
-                rd.set(count, json.dumps(f))
+                json_data = json.load(f)
+                rd.set(str(count), json.dumps(json_data))
 
-            return 'Data has been loaded to Redis from file\n'
+        return 'Data has been loaded to Redis from file\n'
 
     elif request.method == 'GET':
 
@@ -94,7 +85,7 @@ def jobs_wind_speed():
     elif request.method == 'GET':
         return """
   To submit a job, do the following:
-  curl localhost:5041/jobs -X POST -d '{"start":1, "end":2}' -H "Content-Type: application/json"
+  curl localhost:5011/jobs/wind-speed -X POST 
 
 """
     
@@ -116,21 +107,60 @@ def make_json(csvFilePath, jsonFilePath):
     
     # Open a csv reader called DictReader
     with open(csvFilePath, encoding='utf-8') as csvf:
+        count = 0
+        while True:
+            fr = csvf.readline() 
+            print(fr)
+            if fr == "-END HEADER-\n":
+                break
+            count += 1
+            if count > 19:
+                logging.error("'-END HEADER-' not found in data file")
+                break
+            
         csvReader = csv.DictReader(csvf)
         
         # Convert each row into a dictionary
         # and add it to data
+        past_header = False
+        count = 0
         for row in csvReader:
             
             # Assuming a column named 'No' to
             # be the primary key
-            key = row['LAT'] + ", " + row['LON']
+            if len(row) == 0:
+                continue
+            
+            key = row['LAT'] + ", " + row['LON'] #row[0] + ", " + row[1]# 
             data[key] = row
+            # count += 1
+            # if count < 10:
+            #     print(f"********************* {row}")
+            #     print(key)
 
     # Open a json writer, and use the json.dumps()
     # function to dump data
-    with open(jsonFilePath, 'w', encoding='utf-8') as jsonf:
-        jsonf.write(json.dumps(data, indent=4))
+    with open(jsonFilePath, 'w', encoding='utf-8') as f:
+        f.write(json.dumps(data))
+
+
+def info():
+    """
+    Informational
+    """
+
+    return """
+  Try the following routes:
+
+  /                GET    informational
+  /data            GET    read data in database
+  /data            POST   upload data to database
+    
+  /jobs            GET    info on how to submit job
+  /jobs            POST   submit job
+  /jobs/<jobid>    GET    info on job
+
+"""
 
 
 if __name__ == "__main__":
