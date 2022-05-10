@@ -1,4 +1,7 @@
 import json
+import csv
+import glob
+import logging
 from flask import Flask, request
 from jobs import rd, q, add_job, get_job_by_id
 
@@ -33,14 +36,18 @@ def download_data():
     if request.method == 'POST':
 
         rd.flushdb()
+        import glob
+        path = "/POWER_Regional*.csv"
+        filenames = glob.glob(path)
+        for count, filename in enumerate(filenames):
+            logging.debug(f"{filename} going" )
+            make_json(filename, "weather_data.json")
+                                    
+            # NOTE: Could grep a date in the filename to make the keys more consistent
+            with open("weather_data.json") as f:
+                rd.set(count, json.dumps(f))
 
-        with open('ML_Data_Sample.json', 'r') as f: # need our data
-            ml_data = json.load(f)
-
-        for item in ml_data['meteorite_landings']:
-            rd.set(item['id'], json.dumps(item))
-
-        return 'Data has been loaded to Redis from file\n'
+            return 'Data has been loaded to Redis from file\n'
 
     elif request.method == 'GET':
 
@@ -57,8 +64,21 @@ def download_data():
 
 
 
-@app.route('/jobs', methods=['POST', 'GET'])
+@app.route('/jobs', methods=['GET'])
 def jobs_api():
+    """
+    API route for creating a new job to do some analysis. This route accepts a JSON payload
+    describing the job to be created.
+    """
+    if request.method == 'GET':
+        return """
+  To submit a job, do the following:
+  curl localhost:5041/jobs -X POST -d '{"start":1, "end":2}' -H "Content-Type: application/json"
+
+"""
+
+@app.route('/jobs/wind-speed', methods=['POST', 'GET'])
+def jobs_wind_speed():
     """
     API route for creating a new job to do some analysis. This route accepts a JSON payload
     describing the job to be created.
@@ -77,13 +97,40 @@ def jobs_api():
   curl localhost:5041/jobs -X POST -d '{"start":1, "end":2}' -H "Content-Type: application/json"
 
 """
-
+    
+    
 @app.route('/jobs/<job_uuid>', methods=['GET'])
 def get_job_result(job_uuid):
     """
     API route for checking on the status of a submitted job
     """
     return json.dumps(get_job_by_id(job_uuid), indent=2) + '\n'
+
+
+# Function to convert a CSV to JSON
+# Takes the file paths as arguments
+def make_json(csvFilePath, jsonFilePath):
+    
+    # create a dictionary
+    data = {}
+    
+    # Open a csv reader called DictReader
+    with open(csvFilePath, encoding='utf-8') as csvf:
+        csvReader = csv.DictReader(csvf)
+        
+        # Convert each row into a dictionary
+        # and add it to data
+        for row in csvReader:
+            
+            # Assuming a column named 'No' to
+            # be the primary key
+            key = row['LAT'] + ", " + row['LON']
+            data[key] = row
+
+    # Open a json writer, and use the json.dumps()
+    # function to dump data
+    with open(jsonFilePath, 'w', encoding='utf-8') as jsonf:
+        jsonf.write(json.dumps(data, indent=4))
 
 
 if __name__ == "__main__":

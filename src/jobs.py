@@ -6,7 +6,8 @@ import redis
 from hotqueue import HotQueue
 
 
-redis_ip = os.environ.get('REDIS_IP')
+# redis_ip = os.environ.get('REDIS_IP')
+redis_ip = '127.0.0.1'
 if not redis_ip:
     raise Exception()
 
