@@ -46,9 +46,11 @@ def download_data() -> str:
     if request.method == 'POST':
 
         rd.flushdb()
-        path = "../POWER_Regional*.csv"
+        path = "POWER_Regional*.csv"
         filenames = glob.glob(path)
         print(f"{len(filenames)} found" )
+        if len(filenames) == 0:
+            raise Exception("data set not found")
         for count, filename in enumerate(filenames):
             logging.debug(f"{filename} going" )
             make_json(filename, "weather_data.json")

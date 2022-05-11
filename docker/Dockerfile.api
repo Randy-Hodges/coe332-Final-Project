@@ -5,8 +5,8 @@ RUN pip3 install Flask==2.0.3 \
                  hotqueue==0.2.8 \
                  pytest==7.0.1
 
-COPY ./src/api.py /app/
-COPY ./src/weather_data.json /app/weather_data.json
+COPY ./src/* /app/
+# COPY ./src/weather_data.json /app/weather_data.json
 
 WORKDIR /app/
 ENTRYPOINT ["python3"]

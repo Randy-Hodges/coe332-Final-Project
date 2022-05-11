@@ -21,7 +21,7 @@ spec:
             containers:
                 - name: app-test-flask-deployment
                   imagePullPolicy: Always
-                  image: rhodgesd/coe332-final:0.1.0
+                  image: rhodgesd/coe332-final-api:0.1.0
                   command: ['python3', 'api.py']
                   ports:
                   - name: http
