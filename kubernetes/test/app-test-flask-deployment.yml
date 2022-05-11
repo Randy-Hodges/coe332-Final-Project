@@ -28,4 +28,4 @@ spec:
                     containerPort: 5000
                   env:
                   - name: REDIS_IP
-                    value: ${RIP} #app-test-redis-service
+                    value: app-test-redis-service
