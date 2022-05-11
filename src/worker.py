@@ -10,7 +10,11 @@ import redis
 @q.worker
 def execute_job(jid):
     update_job_status(jid, 'in progress')
-    
+    """
+    Current Plan: Heat Map of wind speeds (use ANN)
+    Other Options: basic graph/scatter plot of wind speeds throughout the years/months 
+    in a specific (lat, long)
+    """
     plt.xlabel("Longitude")
     plt.ylabel("Latitude")
     plt.title("Intensity of Wind Speed in Texas and Oklahoma")
