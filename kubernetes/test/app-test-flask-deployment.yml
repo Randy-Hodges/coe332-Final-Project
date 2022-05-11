@@ -22,7 +22,7 @@ spec:
                 - name: app-test-flask-deployment
                   imagePullPolicy: Always
                   image: etchi17/test-img:final
-                  command: ['python3', 'app.py']
+                  command: ['python3', 'api.py']
                   ports:
                   - name: http
                     containerPort: 5000
