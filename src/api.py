@@ -75,7 +75,7 @@ def download_data() -> str:
 
 
 @app.route('/jobs', methods=['GET'])
-def jobs_api():
+def jobs_api() -> str:
     """
     API route for creating a new job to do some analysis. This route accepts a JSON payload
     describing the job to be created.
