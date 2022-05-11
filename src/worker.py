@@ -20,7 +20,7 @@ def execute_job(jid):
     lon = []
     spd_data = []
     for key in rd.keys()
-        if float(json.loads(rd.get(key))['YEAR']) == 2010:
+        if float(json.loads(rd.get(key))['YEAR']) == 2010:  #maybe want to allow some kind of user input or wtv to specifify a year
             data.append(json.loads(rd.get(key)))
             lat.append(float(json.loads(rd.get(key))['LAT']))
             lon.append(float(json.loads(rd.get(key))['LON']))
