@@ -1,8 +1,8 @@
-NSPACE="wjallen"
-APP="mldata"
+NSPACE="rhodgesd"
+APP="coe332-final"
 VER="0.1.0"
-RPORT="6441"
-FPORT="5041"
+RPORT="6379"
+FPORT="5000"
 UID="827385"
 GID="815499"
 
@@ -33,7 +33,7 @@ run-db: build-db
 	docker run --name ${NSPACE}-db \
                    -p ${RPORT}:6379 \
                    -d \
-                   -u ${UID}:${GID} \
+                #    -u ${UID}:${GID} \
                    -v ${PWD}/data/:/data \
                    redis:6 \
                    --save 1 1

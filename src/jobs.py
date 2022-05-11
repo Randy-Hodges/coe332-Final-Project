@@ -9,7 +9,7 @@ from hotqueue import HotQueue
 redis_ip = os.environ.get('REDIS_IP')
 # redis_ip = '127.0.0.1'
 if not redis_ip:
-    raise Exception()
+    raise Exception("no redis ip")
 
 rd = redis.Redis(host=redis_ip, port=6379, db=0)
 # q = 5

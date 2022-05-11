@@ -21,11 +21,11 @@ spec:
             containers:
                 - name: app-test-flask-deployment
                   imagePullPolicy: Always
-                  image: etchi17/test-img:final
+                  image: rhodgesd/coe332-final:0.1.0
                   command: ['python3', 'api.py']
                   ports:
                   - name: http
                     containerPort: 5000
                   env:
                   - name: REDIS_IP
-                    value: app-test-redis-service
+                    value: ${RIP} #app-test-redis-service
