@@ -1,7 +1,8 @@
-from jobs import q, update_job_status
+from jobs import q, update_job_status, rd, jbd, img_db
 import time
-# import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 import numpy as np
+import seaborn as sns
 from hotqueue import HotQueue
 import json
 import os
@@ -10,16 +11,35 @@ import redis
 @q.worker
 def execute_job(jid):
     update_job_status(jid, 'in progress')
-    """
-    Current Plan: Heat Map of wind speeds (use ANN)
-    Other Options: basic graph/scatter plot of wind speeds throughout the years/months 
-    in a specific (lat, long)
-    """
-    # plt.xlabel("Longitude")
-    # plt.ylabel("Latitude")
-    # plt.title("Intensity of Wind Speed in Texas and Oklahoma")
+    
+    data = []
+    lat = []
+    lon = []
+    spd_data = []
+    for key in rd.keys()
+        if float(json.loads(rd.get(key))['YEAR']) == 2010:
+            data.append(json.loads(rd.get(key)))
+            lat.append(float(json.loads(rd.get(key))['LAT']))
+            lon.append(float(json.loads(rd.get(key))['LON']))
+            lon = list(set(sorted(lon)))
+            lat = list(set(sorted(lat, reverse=True)))
+    for i in lat:
+        row = [] 
+        for j in lon:
+            for item in data:
+                if float(json.loads(rd.get(key))['LAT']) == i and float(json.loads(rd.get(key))['LON']) == j:
+                    row.append(float(json.loads(rd.get(key))['ANN']))
+                    break
+        spd_data.append(row)
 
-    time.sleep(15) # Lol definitely gonna need to replace this
+    plt.axis([-103.25, -93.75, 27.25, 36.75])
+    plt.xlabel("Longitude")
+    plt.ylabel("Latitude")
+    plt.title("Intensity of Wind Speed in Texas and Oklahoma")
+    plt.imshow(spd_data, cmap = 'summer', interpolation = 'nearest')
+    plt.savefig('/windspeed_data_output.png')
+    
+    #time.sleep(15) # Lol definitely gonna need to replace this
     update_job_status(jid, 'complete')
 
 execute_job()
