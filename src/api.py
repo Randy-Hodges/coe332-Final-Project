@@ -9,18 +9,39 @@ app = Flask(__name__)
 
 
 @app.route('/', methods=['GET'])
-def disp_info():
+def disp_info() -> str:
+    """
+    Outputs string containing information on how to interact with this application. Details information on how to use each route and what each route does.
+    
+    Returns:
+        output (string): String detailing all routes, their HTML method, and their outputs.    
+    """
     return info()
 
 @app.route('/<any>', methods=['GET'])
-def help(any):
+def help(any) -> str:
+    """
+    Outputs string containing information on how to interact with this application. Details information on how to use each route and what each route does.
+    
+    Returns:
+        output (string): String detailing all routes, their HTML method, and their outputs.    
+    """
     return info()
 
 
 @app.route('/data', methods=['POST', 'GET'])
-def download_data(): 
+def download_data() -> str: 
     """
-    Fill out
+    This route contains 2 HTML methods:
+    POST: Searches for any CSV data set starting with "POWER_Regional" and stores each data set as a JSON file. Loads the JSON file and 
+          creates a new entry in the Redis database for each key:value pair. Returns string confirming completion of each step.
+          
+    GET:  Creates a list containing each key:value pair stored in the Redis database and outputs the list as a string.
+
+    Returns:
+        POST output (string): Short string confirming the successful loading of data from the file to Redis.
+        
+        GET  output (string): Large string containing all the data loaded into Redis.
     """
     if request.method == 'POST':
 
@@ -113,7 +134,7 @@ def make_json(csvFilePath, jsonFilePath):
             if fr == "-END HEADER-\n":
                 break
             count += 1
-            if count > 19:
+            if count > 30:
                 logging.error("'-END HEADER-' not found in data file")
                 break
             
