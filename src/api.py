@@ -2,7 +2,6 @@ import json
 import csv
 import glob
 import logging
-from operator import truediv
 from flask import Flask, request
 from jobs import rd, q, add_job, get_job_by_id
 
@@ -54,7 +53,6 @@ def download_data():
         return 'Only supports POST and GET methods\n'
 
 
-
 @app.route('/jobs', methods=['GET'])
 def jobs_api():
     """
@@ -67,6 +65,7 @@ def jobs_api():
   curl localhost:5041/jobs -X POST -d '{"start":1, "end":2}' -H "Content-Type: application/json"
 
 """
+
 
 @app.route('/jobs/wind-speed', methods=['POST', 'GET'])
 def jobs_wind_speed():

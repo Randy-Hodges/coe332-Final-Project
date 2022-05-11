@@ -3,7 +3,7 @@ import os
 import uuid
 from flask import Flask, request
 import redis
-# from hotqueue import HotQueue
+from hotqueue import HotQueue
 
 
 # redis_ip = os.environ.get('REDIS_IP')
@@ -12,8 +12,8 @@ if not redis_ip:
     raise Exception()
 
 rd = redis.Redis(host=redis_ip, port=6379, db=0)
-q = 5
-# q = HotQueue("queue", host=redis_ip, port=6379, db=1)
+# q = 5
+q = HotQueue("queue", host=redis_ip, port=6379, db=1)
 jdb = redis.Redis(host=redis_ip, port=6379, db=2, decode_responses=True)
 
 
@@ -30,7 +30,7 @@ def _generate_job_key(jid):
     """
     return 'job.{}'.format(jid)
 
-def _instantiate_job(jid, status, start, end):
+def _instantiate_job(jid, status):
     """
     Create the job object description as a python dictionary. Requires the job id, status,
     start and end parameters.
@@ -38,13 +38,9 @@ def _instantiate_job(jid, status, start, end):
     if type(jid) == str:
         return {'id': jid,
                 'status': status,
-                'start': start,
-                'end': end
                }
     return {'id': jid.decode('utf-8'),
             'status': status.decode('utf-8'),
-            'start': start.decode('utf-8'),
-            'end': end.decode('utf-8')
            }
 
 def _save_job(job_key, job_dict):
@@ -54,13 +50,13 @@ def _save_job(job_key, job_dict):
 
 def _queue_job(jid):
     """Add a job to the redis queue."""
-    # q.put(jid)
+    q.put(jid)
     return
 
-def add_job(start, end, status="submitted"):
+def add_job(status="submitted"):
     """Add a job to the redis queue."""
     jid = _generate_jid()
-    job_dict = _instantiate_job(jid, status, start, end)
+    job_dict = _instantiate_job(jid, status)
     _save_job(_generate_job_key(jid), job_dict)
     _queue_job(jid)
     return job_dict
