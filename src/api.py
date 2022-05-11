@@ -4,6 +4,7 @@ import glob
 import logging
 from flask import Flask, request
 from jobs import rd, q, add_job, get_job_by_id
+print(str(rd))
 
 app = Flask(__name__)
 
