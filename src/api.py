@@ -2,6 +2,7 @@ import json
 import csv
 import glob
 import logging
+import os
 from flask import Flask, request
 from jobs import rd, q, add_job, get_job_by_id
 
