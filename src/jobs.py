@@ -15,6 +15,7 @@ rd = redis.Redis(host=redis_ip, port=6379, db=0)
 # q = 5
 q = HotQueue("queue", host=redis_ip, port=6379, db=1)
 jdb = redis.Redis(host=redis_ip, port=6379, db=2, decode_responses=True)
+img_db = redis.Redis(host=redis_ip, port=6379, db=3)
 
 
 def _generate_jid():
