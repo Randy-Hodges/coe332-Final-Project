@@ -13,10 +13,15 @@ To start, load all of the files in this repository to your machine. To do so:
 With the files downloaded, we can now get started on setting up the images:
 1. Start by editting the `Makefile` with your test editor of choice and replace `NSPACE` with your Docker Hub username, `RPORT` with your assigned Redis Port, and `FPORT` with your assigned Flask Port
 2. Save and exit out and run the following command: `make cycle-all`
-3. Once complete, you should now have running containers for the redis database, flask api, and worker. You can check that everything is running with: `docker ps -a`
+3. Once complete, you should now have running containers for the redis database, flask api, and worker. You can check if everything is running with: `docker ps -a`
 4. If you want to push these images to Docker Hub, simply run `make push-all`
 
 ## Interacting with API:
+With the running containers set up, we can now interact with the API on ISP02. To start, we can check all of the available routes and what they do with `curl localhost:<FPORT>/`:
+```
+UPDATED HELP TEXT
+```
+
 ## Creating Jobs:
 ## Retrieving Results from Jobs:
 ## Setting Up API on Kubernetes:
