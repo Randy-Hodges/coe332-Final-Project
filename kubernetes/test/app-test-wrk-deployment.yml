@@ -7,7 +7,7 @@ metadata:
     app: app-test-wrk
     env: test
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: app-test-wrk
