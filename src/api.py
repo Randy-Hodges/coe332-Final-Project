@@ -97,7 +97,8 @@ def jobs_wind_speed():
     API route for creating a new job to do some analysis. This route accepts a JSON payload
     describing the job to be created.
     """
-    # if request.method == 'POST':
+    if request.method == 'POST':
+        return "POST not currently supported"
     #     try:
     #         job = request.get_json(force=True)
     #     except Exception as e:
@@ -106,9 +107,9 @@ def jobs_wind_speed():
     #     return json.dumps(add_job(job['start'], job['end']), indent=2) + '\n'
 
     if request.method == 'GET':
-        Lat = int(request.args.get('LAT_START', 27.25))
-        Long = int(request.args.get('LONG_START', -100.25))
-        
+        lat = int(request.args.get('LAT_START', 27.25))
+        long = int(request.args.get('LONG_START', -100.25))
+        add_job(long_start=long, lat_start=lat)
 
         return """
   To submit a job, do the following:
@@ -158,7 +159,7 @@ def make_json(csvFilePath, jsonFilePath):
             if len(row) == 0:
                 continue
             
-            key = row['LAT'] + ", " + row['LON'] + row['PARAMETER']
+            key = f"{row['LAT']}, {row['LON']}, {row['PARAMETER']}, {row['YEAR']}"
             data[key] = row
 
     # Open a json writer, and use the json.dumps()
