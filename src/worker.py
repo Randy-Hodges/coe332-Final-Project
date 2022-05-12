@@ -17,6 +17,23 @@ import redis
 def execute_job(jid):
     update_job_status(jid, 'in progress')
     
+    data = jdb.hgetall(f'job.{jid}')
+    xval = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC']
+    yval = []
+
+    for month in xval:
+        yval.append(data[month])
+
+    plt.xlabel("Months")
+    plt.ylabel("Wind Speed")
+    plt.title("Wind Speed in a Year")
+    plt.plot(xval, yval, 'b-')
+    plt.savefig('/simple_line.png')
+
+
+
+
+
     # data = []
     # lat = []
     # lon = []
