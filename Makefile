@@ -90,4 +90,6 @@ superclean: clean-wrk clean-api clean-db
 	docker rmi -f ${NSPACE}/${APP}-api:${VER}
 	docker rmi -f ${NSPACE}/${APP}-wrk:${VER}
 
+build-push-all: build-all push-all
 
+build-push-api: build-api push-api

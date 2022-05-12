@@ -7,7 +7,7 @@ metadata:
     app: app-prod-wrk
     env: prod
 spec:
-  replicas: 3
+  replicas: 2
   selector:
     matchLabels:
       app: app-prod-wrk
@@ -19,8 +19,8 @@ spec:
     spec:
       containers:
         - name: app-prod-wrk
-          image: rhodges/app-wrk:${TAG}
+          image: rhodgesd/coe332-final-wrk:0.1.0
           imagePullPolicy: Always
           env:
           - name: REDIS_IP
-            value: ${RIP}
+            value: app-prod-redis-service

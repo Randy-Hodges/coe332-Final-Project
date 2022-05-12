@@ -77,16 +77,24 @@ def download_data() -> str:
         return 'Only supports POST and GET methods\n'
 
 
+@app.route('/delete-data', methods=['GET'])
+def delete_data() -> str:
+    '''Deletes the data in the main redis database'''
+    rd.flushdb()
+    
+
 @app.route('/jobs', methods=['GET'])
 def jobs_api() -> str:
     """
-    API route for creating a new job to do some analysis. This route accepts a JSON payload
-    describing the job to be created.
+    Lists how to do a job.
     """
     if request.method == 'GET':
         return """
   To submit a job, do the following:
-  curl localhost:5041/jobs -X POST -d '{"start":1, "end":2}' -H "Content-Type: application/json"
+  curl https://isp-proxy.tacc.utexas.edu/rhodges-1/jobs/<job-name>
+
+  Currently supported job names:
+  wind-speed
 
 """
 
@@ -94,23 +102,24 @@ def jobs_api() -> str:
 @app.route('/jobs/wind-speed', methods=['POST', 'GET'])
 def jobs_wind_speed():
     """
-    API route for creating a new job to do some analysis. This route accepts a JSON payload
-    describing the job to be created.
+    Creates a job for retrieving wind-speed data for a certain region/time. 
+    POST: The Post method is not currently supported.
+    GET: Creates a job. There are default values which can be changed by adding query values in the http call.
+
+    available parameters: 
+            'YEAR': year,
+            'LAT_START': latitude point,
+            'LON_START': longitude point,
     """
     if request.method == 'POST':
-        return "POST not currently supported"
-    #     try:
-    #         job = request.get_json(force=True)
-    #     except Exception as e:
-    #         return json.dumps({'status': "Error", 'message': 'Invalid JSON: {}.'.format(e)})
-    
-    #     return json.dumps(add_job(job['start'], job['end']), indent=2) + '\n'
+        return "POST not currently supported. Use a get request with query parameters."
 
     if request.method == 'GET':
         lat = float(request.args.get('LAT_START', 27.25))
         lon = float(request.args.get('LON_START', -103.25))
+        year = float(request.args.get('YEAR', '2010'))
 
-        return json.dumps(add_job(long_start=lon, lat_start=lat)) + '\n'
+        return json.dumps(add_job(long_start=lon, lat_start=lat, year=year)) + '\n'
     
     
 @app.route('/jobs/<job_uuid>', methods=['GET'])
@@ -119,6 +128,7 @@ def get_job_result(job_uuid):
     API route for checking on the status of a submitted job
     """
     return json.dumps(get_job_by_id(job_uuid), indent=2) + '\n'
+
 
 @app.route('/download/<job_uuid>', methods=['GET'])
 def download(job_uuid):
@@ -131,10 +141,8 @@ def download(job_uuid):
 # Function to convert a CSV to JSON
 # Takes the file paths as arguments
 def make_json(csvFilePath, jsonFilePath):
-    
     # create a dictionary
     data = {}
-    
     # Open a csv reader called DictReader
     with open(csvFilePath, encoding='utf-8') as csvf:
         count = 0
@@ -176,15 +184,17 @@ def info():
     """
 
     return """
-  Try the following routes: testing to check
+  Try the following routes:
 
-  /                GET    informational
-  /data            GET    read data in database
-  /data            POST   upload data to database
-    
-  /jobs            GET    info on how to submit job
-  /jobs            POST   submit job
-  /jobs/<jobid>    GET    info on job
+  /                    GET    informational
+  /help                GET    informational
+  /data                GET    read data in database
+  /data                POST   upload data to database
+        
+  /jobs                GET    info on how to submit job
+  /jobs/<jobid>        GET    info on job
+  /jobs/wind-speed     GET    submit a windspeed job
+  /download/<job_uuid> GET    retrieve resulting chart from a job 
 
 """
 
