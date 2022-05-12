@@ -109,13 +109,8 @@ def jobs_wind_speed():
     if request.method == 'GET':
         lat = int(request.args.get('LAT_START', 27.25))
         long = int(request.args.get('LONG_START', -100.25))
-        add_job(long_start=long, lat_start=lat)
 
-        return """
-  To submit a job, do the following:
-  curl localhost:5011/jobs/wind-speed -X POST 
-
-"""
+        return json.dumps(add_job(long_start=long, lat_start=lat)) + '\n'
     
     
 @app.route('/jobs/<job_uuid>', methods=['GET'])
