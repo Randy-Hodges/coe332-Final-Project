@@ -19,7 +19,15 @@ With the files downloaded, we can now get started on setting up the images:
 ## Interacting with API:
 With the running containers set up, we can now interact with the API on ISP02. To start, we can check all of the available routes and what they do with `curl localhost:<FPORT>/`:
 ```
-UPDATED HELP TEXT
+  /                    GET    informational
+  /help                GET    informational
+  /data                GET    read data in database
+  /data                POST   upload data to database
+        
+  /jobs                GET    info on how to submit job
+  /jobs/<jobid>        GET    info on job
+  /jobs/wind-speed     GET    submit a windspeed job
+  /download/<job_uuid> GET    retrieve resulting chart from a job 
 ```
 Before any of the interactive routes can be run, we first need to create and post the initial data in the database with `curl localhost:<FPORT>/data -X POST`. Once confirmed, we can now run all the interactive routes by entering them after `curl localhost:<FPORT>/`.
 
