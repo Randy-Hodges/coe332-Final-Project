@@ -1,4 +1,4 @@
-from jobs import q, update_job_status, rd, jbd, img_db
+from jobs import q, update_job_status, rd, jdb, img_db
 import time
 # import matplotlib.pyplot as plt
 import numpy as np
