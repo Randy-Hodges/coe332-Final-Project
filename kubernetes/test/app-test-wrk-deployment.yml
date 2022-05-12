@@ -1,0 +1,26 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-test-wrk-deployment
+  labels:
+    app: app-test-wrk
+    env: test
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: app-test-wrk
+  template:
+    metadata:
+      labels:
+        app: app-test-wrk
+        env: test
+    spec:
+      containers:
+        - name: app-test-wrk
+          image: rhodgesd/coe332-final-wrk:0.1.0
+          imagePullPolicy: Always
+          env:
+          - name: REDIS_IP
+            value: app-test-redis-service

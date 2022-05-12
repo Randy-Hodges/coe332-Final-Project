@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: app-prod-wrk
-          image: etchi17/app-wrk:${TAG}
+          image: rhodges/app-wrk:${TAG}
           imagePullPolicy: Always
           env:
           - name: REDIS_IP
