@@ -17,19 +17,23 @@ With the files downloaded, we can now get started on setting up the images:
 4. If you want to push these images to Docker Hub, simply run `make push-all`
 
 ## Interacting with API:
-With the running containers set up, we can now interact with the API on ISP02. To start, we can check all of the available routes and what they do with `curl localhost:<FPORT>/`:
-```
-  /                    GET    informational; print this info
-  /help                GET    informational; print this info
+To get a general overview of how to interact with the app, it is worth viewing the /help route which will give the following output:
+  /                    GET    informational; prints this info
+  /help                GET    informational; prints this info
   /data                GET    read data in database
   /data                POST   upload data to database
         
   /jobs                GET    info on how to submit job
-  /jobs/<jobid>        GET    info on job
+  /jobs/<jid>          GET    info on job
   /jobs/wind-speed     GET    submit a windspeed job
-  /download/<job_uuid> GET    retrieve resulting chart from a job 
-```
-Before any of the interactive routes can be run, we first need to create and post the initial data in the database with `curl localhost:<FPORT>/data -X POST`. Once confirmed, we can now run all the interactive routes by entering them after `curl localhost:<FPORT>/`.
+  /download/<jid>      GET    retrieve resulting chart from a job
+
+    After viewing this, the general workflow of using the app is as follows: 
+- First ensure that the data is up-to-date by using the command “curl -X POST {api-route}/data”. This will either create the data in the database (if the database was empty) or update the data in the database. 
+- Next one would submit a job through “curl {api-route}/jobs/wind-speed”. This creates a job and submits the job to the backend workers. Additional parameters can be added to the job (such as latitude, longitude and year) through adding query parameters to the end of the route. For example, “curl {api-route}/jobs/wind-speed?year=2011”. This route also returns an output with a job address. It is common to copy that job address (jid).
+- Next one would view the status of that job though “curl {api-route}/jobs/<jid>”. This will tell if the job was submitted, is in progress, or has completed.
+- Once completed, one would retrieve the chart created from the job through “curl {api-route}/download/<jid>”. It is common to redirect the output of this command to a file so that it can be accessed by the user. For example, “curl {api-route}/download/<jid> > my_new_file_name”.
+
 
 ## Description of Outputs:
 Input: `/data`
@@ -110,9 +114,6 @@ To retrieve our results, we simply utilize the command `curl localhost:<FPORT>/d
     - NOTE: replace `<pwd>` with the pathway directory on ISP02 containing `<filename>`.png; can be found by entering the command `pwd` on ISP02 terminal
 3. The image is now on your desktop and you can view it there.
 
-```
-IMAGE OF PLOT
-```
     
 ## Setting Up API on Kubernetes:
 To set up and perform all of these processes in Kubernetes:
@@ -127,6 +128,6 @@ To set up and perform all of these processes in Kubernetes:
     ```
 5. When all of the deployments are ready with status as running, we can utilize the API in the same way we utilized them in ISP02
 ## Integration Testing:
-
+Testing can be done through running the command pytest in the repository.
 ## Citations:
 “The POWER Project.” *NASA Prediction Of Worldwide Energy Resources*, NASA, https://power.larc.nasa.gov/. 
