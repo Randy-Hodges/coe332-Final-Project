@@ -2,12 +2,6 @@ from jobs import q, update_job_status, rd, jdb, img_db
 import time
 import matplotlib.pyplot as plt
 import numpy as np
-"""
-import seaborn as sns     May want to use this bc of the color bar legend thing, unsure about how the list of lists need to be organized for the heatmap
-                          outputting methods tbh
-
-NOTE: Still have not tested to see if this works (honestly not sure how to)
-"""
 from hotqueue import HotQueue
 import json
 import os

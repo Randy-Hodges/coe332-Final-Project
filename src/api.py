@@ -19,6 +19,7 @@ def disp_info() -> str:
     """
     return info()
 
+
 @app.route('/<any>', methods=['GET'])
 def help(any) -> str:
     """
@@ -81,6 +82,7 @@ def download_data() -> str:
 def delete_data() -> str:
     '''Deletes the data in the main redis database'''
     rd.flushdb()
+    return "data has been deleted"
     
 
 @app.route('/jobs', methods=['GET'])
