@@ -26,7 +26,7 @@ def execute_job(jid):
 
     plt.xlabel("Months")
     plt.ylabel("Wind Speed")
-    plt.title("Wind Speed in a Year")
+    plt.title(f'Wind Speed in {data["YEAR"]} at Lat = {data["LAT"]} and Lon = {data["LON"]}')
     plt.plot(xval, yval, 'b-')
     plt.savefig('/simple_line.png')
 
