@@ -1,6 +1,6 @@
 from jobs import q, update_job_status, rd, jdb, img_db
 import time
-# import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 import numpy as np
 """
 import seaborn as sns     May want to use this bc of the color bar legend thing, unsure about how the list of lists need to be organized for the heatmap
@@ -17,18 +17,18 @@ import redis
 def execute_job(jid):
     update_job_status(jid, 'in progress')
     
-    data = jdb.hgetall(f'job.{jid}')
-    xval = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC']
-    yval = []
+    # data = jdb.hgetall(f'job.{jid}')
+    # xval = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC']
+    # yval = []
 
-    for month in xval:
-        yval.append(data[month])
+    # for month in xval:
+    #     yval.append(data[month])
 
-    plt.xlabel("Months")
-    plt.ylabel("Wind Speed")
-    plt.title(f'Wind Speed in {data["YEAR"]} at Lat = {data["LAT"]} and Lon = {data["LON"]}')
-    plt.plot(xval, yval, 'b-')
-    plt.savefig('/simple_line.png')
+    # plt.xlabel("Months")
+    # plt.ylabel("Wind Speed")
+    # plt.title(f'Wind Speed in {data["YEAR"]} at Lat = {data["LAT"]} and Lon = {data["LON"]}')
+    # plt.plot(xval, yval, 'b-')
+    # plt.savefig('/simple_line.png')
 
 
 
