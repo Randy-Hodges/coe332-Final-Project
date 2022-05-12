@@ -186,8 +186,8 @@ def info():
     return """
   Try the following routes:
 
-  /                    GET    informational
-  /help                GET    informational
+  /                    GET    informational; prints this info
+  /help                GET    informational; prints this info
   /data                GET    read data in database
   /data                POST   upload data to database
   /delete-data         GET    clears (deletes) all of the data in the redis database
