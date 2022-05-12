@@ -124,7 +124,7 @@ def get_job_result(job_uuid):
 def download(job_uuid):
     path = f'/app/{job_uuid}.png'
     with open(path, 'wb') as f:
-        f.write(img_db.hget(f'job.{job_uuid}'))
+        f.write(img_db.hget(f'job.{job_uuid}', 'image'))
     return send_file(path, mimetype='image/png', as_attachment=True)
 
 
@@ -176,7 +176,7 @@ def info():
     """
 
     return """
-  Try the following routes:
+  Try the following routes: testing to check
 
   /                GET    informational
   /data            GET    read data in database
