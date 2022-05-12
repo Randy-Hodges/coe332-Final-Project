@@ -19,8 +19,8 @@ spec:
     spec:
       containers:
         - name: app-prod-wrk
-          image: rhodges/app-wrk:${TAG}
+          image: rhodges/app-wrk:0.1.0
           imagePullPolicy: Always
           env:
           - name: REDIS_IP
-            value: ${RIP}
+            value: app-test-redis-service

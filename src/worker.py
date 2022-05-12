@@ -44,7 +44,7 @@ def execute_job(jid):
     # plt.imshow(spd_data, cmap = 'summer', interpolation = 'nearest')
     # plt.savefig('/windspeed_data_output.png')
     
-    time.sleep(5) 
+    time.sleep(2) 
     update_job_status(jid, 'complete')
 
 
