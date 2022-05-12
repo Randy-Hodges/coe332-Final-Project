@@ -7,7 +7,7 @@ metadata:
         env: test
         app: app-test-flask
 spec:
-    replicas: 2
+    replicas: 1
     selector:
         matchLabels:
             app: app-test-flask

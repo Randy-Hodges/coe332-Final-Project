@@ -7,12 +7,10 @@ from hotqueue import HotQueue
 
 
 redis_ip = os.environ.get('REDIS_IP')
-# redis_ip = '127.0.0.1'
 if not redis_ip:
     raise Exception("no redis ip")
 
 rd = redis.Redis(host=redis_ip, port=6379, db=0)
-# q = 5
 q = HotQueue("queue", host=redis_ip, port=6379, db=1)
 jdb = redis.Redis(host=redis_ip, port=6379, db=2, decode_responses=True)
 img_db = redis.Redis(host=redis_ip, port=6379, db=3)
@@ -24,6 +22,7 @@ def _generate_jid():
     """
     return str(uuid.uuid4())
 
+
 def _generate_job_key(jid):
     """
     Generate the redis key from the job id to be used when storing, retrieving or updating
@@ -31,28 +30,34 @@ def _generate_job_key(jid):
     """
     return 'job.{}'.format(jid)
 
-def _instantiate_job(jid, status):
+
+def _instantiate_job(jid, status, type="line_graph", elevation = "10", lat_start = 27.25, long_start=-103.25, lat_end = 36.75, long_end=-93.75):
     """
     Create the job object description as a python dictionary. Requires the job id, status,
-    start and end parameters.
+    start and end parameters. types: line_graph, heatmap
     """
-    if type(jid) == str:
-        return {'id': jid,
-                'status': status,
-               }
-    return {'id': jid.decode('utf-8'),
-            'status': status.decode('utf-8'),
-           }
+    return {'id': jid,
+            'status': status,
+            'type': type,
+            'elevation': elevation,
+            'lat_start': lat_start,
+            'long_start': long_start,
+            'lat_end': lat_end,
+            'long_end': long_end
+            }
+
 
 def _save_job(job_key, job_dict):
     """Save a job object in the Redis database."""
     jdb.hset(job_key, mapping=job_dict)
     return
 
+
 def _queue_job(jid):
     """Add a job to the redis queue."""
     q.put(jid)
     return
+
 
 def add_job(status="submitted"):
     """Add a job to the redis queue."""
@@ -62,9 +67,11 @@ def add_job(status="submitted"):
     _queue_job(jid)
     return job_dict
 
+
 def get_job_by_id(jid):
     """Return job dictionary given jid"""
     return (jdb.hgetall(_generate_job_key(jid).encode('utf-8')))
+
 
 def update_job_status(jid, status):
     """Update the status of job with job id `jid` to status `status`."""

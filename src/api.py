@@ -5,7 +5,6 @@ import logging
 import os
 from flask import Flask, request
 from jobs import rd, q, add_job, get_job_by_id
-print(str(rd))
 
 app = Flask(__name__)
 
@@ -98,15 +97,19 @@ def jobs_wind_speed():
     API route for creating a new job to do some analysis. This route accepts a JSON payload
     describing the job to be created.
     """
-    if request.method == 'POST':
-        try:
-            job = request.get_json(force=True)
-        except Exception as e:
-            return json.dumps({'status': "Error", 'message': 'Invalid JSON: {}.'.format(e)})
+    # if request.method == 'POST':
+    #     try:
+    #         job = request.get_json(force=True)
+    #     except Exception as e:
+    #         return json.dumps({'status': "Error", 'message': 'Invalid JSON: {}.'.format(e)})
     
-        return json.dumps(add_job(job['start'], job['end']), indent=2) + '\n'
+    #     return json.dumps(add_job(job['start'], job['end']), indent=2) + '\n'
 
-    elif request.method == 'GET':
+    if request.method == 'GET':
+        Lat = int(request.args.get('LAT_START', 27.25))
+        Long = int(request.args.get('LONG_START', -100.25))
+        
+
         return """
   To submit a job, do the following:
   curl localhost:5011/jobs/wind-speed -X POST 
@@ -155,12 +158,8 @@ def make_json(csvFilePath, jsonFilePath):
             if len(row) == 0:
                 continue
             
-            key = row['LAT'] + ", " + row['LON'] #row[0] + ", " + row[1]# 
+            key = row['LAT'] + ", " + row['LON'] + row['PARAMETER']
             data[key] = row
-            # count += 1
-            # if count < 10:
-            #     print(f"********************* {row}")
-            #     print(key)
 
     # Open a json writer, and use the json.dumps()
     # function to dump data
