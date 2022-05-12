@@ -10,4 +10,4 @@ spec:
   - name: app-prod-flask
     port: 5000
     targetPort: 5000
-    nodePort: 30111
+    nodePort: 30007
