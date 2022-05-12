@@ -2,23 +2,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app-prod-wrk-deployment
+  name: app-test-wrk-deployment
   labels:
-    app: app-prod-wrk
-    env: prod
+    app: app-test-wrk
+    env: test
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: app-prod-wrk
+      app: app-test-wrk
   template:
     metadata:
       labels:
-        app: app-prod-wrk
-        env: prod
+        app: app-test-wrk
+        env: test
     spec:
       containers:
-        - name: app-prod-wrk
+        - name: app-test-wrk
           image: rhodges/app-wrk:0.1.0
           imagePullPolicy: Always
           env:
