@@ -17,23 +17,23 @@ import redis
 def execute_job(jid):
     update_job_status(jid, 'in progress')
     
-    # data = jdb.hgetall(f'job.{jid}')
-    # xval = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC']
-    # yval = []
+    data = jdb.hgetall(f'job.{jid}')
+    xval = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC']
+    yval = []
 
-    # for month in xval:
-    #     yval.append(data[month])
+    for month in xval:
+        yval.append(data[month])
 
-    # plt.xlabel("Months")
-    # plt.ylabel("Wind Speed")
-    # plt.title(f'Wind Speed in {data["YEAR"]} at Lat = {data["LAT"]} and Lon = {data["LON"]}')
-    # plt.plot(xval, yval, 'b-')
-    # plt.savefig('/simple_line.png')
+    plt.xlabel("Months")
+    plt.ylabel("Wind Speed")
+    plt.title(f'Wind Speed in {data["YEAR"]} at Lat = {data["LAT"]} and Lon = {data["LON"]}')
+    plt.plot(xval, yval, 'b-')
+    plt.savefig('/simple_line.png')
 
     with open('/simple_line.png', 'rb') as f:
         img = f.read()
 
-    img_db.hset(f'job.{jid}', 'image', img)
+    img_db.hset(jid, img)
 
 
 

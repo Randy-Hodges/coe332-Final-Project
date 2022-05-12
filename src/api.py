@@ -4,7 +4,7 @@ import glob
 import logging
 import os
 from flask import Flask, request
-from jobs import rd, q, add_job, get_job_by_id
+from jobs import rd, jdb, img_db, q, add_job, get_job_by_id
 
 app = Flask(__name__)
 
@@ -119,6 +119,13 @@ def get_job_result(job_uuid):
     API route for checking on the status of a submitted job
     """
     return json.dumps(get_job_by_id(job_uuid), indent=2) + '\n'
+
+@app.route('/download/<job_uuid>', methods=['GET'])
+def download(job_uuid):
+    path = f'/app/{job_uuid}.png'
+    with open(path, 'wb') as f:
+        f.write(img_db.hget(job_uuid))
+    return send_file(path, mimetype='image/png', as_attachment=True)
 
 
 # Function to convert a CSV to JSON
