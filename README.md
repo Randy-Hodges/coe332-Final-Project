@@ -124,5 +124,5 @@ To set up and perform all of these processes in Kubernetes:
 5. When all of the deployments are ready with status as running, we can utilize the API in the same way we utilized them in ISP02
 ## Integration Testing:
 
-## Citations:
+## Citations: (MAYBE FIX THIS)
 “The POWER Project.” *NASA Prediction Of Worldwide Energy Resources*, NASA, https://power.larc.nasa.gov/. 
