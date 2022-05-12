@@ -23,6 +23,7 @@ To get a general overview of how to interact with the app, it is worth viewing t
   /help                GET    informational; prints this info
   /data                GET    read data in database
   /data                POST   upload data to database
+  /delete-data         GET    clears (deletes) all of the data in the redis database
         
   /jobs                GET    info on how to submit job
   /jobs/<jid>          GET    info on job
@@ -30,7 +31,7 @@ To get a general overview of how to interact with the app, it is worth viewing t
   /download/<jid>      GET    retrieve resulting chart from a job
 ```
 
-    After viewing this, the general workflow of using the app is as follows: 
+After viewing this, the general workflow of using the app is as follows: 
 - First ensure that the data is up-to-date by using the command “curl -X POST {api-route}/data”. This will either create the data in the database (if the database was empty) or update the data in the database. 
 - Next one would submit a job through “curl {api-route}/jobs/wind-speed”. This creates a job and submits the job to the backend workers. Additional parameters can be added to the job (such as latitude, longitude and year) through adding query parameters to the end of the route. For example, “curl {api-route}/jobs/wind-speed?year=2011”. This route also returns an output with a job address. It is common to copy that job address (jid).
 - Next one would view the status of that job though “curl {api-route}/jobs/<jid>”. This will tell if the job was submitted, is in progress, or has completed.
