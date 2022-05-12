@@ -19,8 +19,8 @@ With the files downloaded, we can now get started on setting up the images:
 ## Interacting with API:
 With the running containers set up, we can now interact with the API on ISP02. To start, we can check all of the available routes and what they do with `curl localhost:<FPORT>/`:
 ```
-  /                    GET    informational
-  /help                GET    informational
+  /                    GET    informational; print this info
+  /help                GET    informational; print this info
   /data                GET    read data in database
   /data                POST   upload data to database
         
@@ -128,5 +128,5 @@ To set up and perform all of these processes in Kubernetes:
 5. When all of the deployments are ready with status as running, we can utilize the API in the same way we utilized them in ISP02
 ## Integration Testing:
 
-## Citations: (MAYBE FIX THIS)
+## Citations:
 “The POWER Project.” *NASA Prediction Of Worldwide Energy Resources*, NASA, https://power.larc.nasa.gov/. 
