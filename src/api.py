@@ -108,9 +108,9 @@ def jobs_wind_speed():
 
     if request.method == 'GET':
         lat = int(request.args.get('LAT_START', 27.25))
-        long = int(request.args.get('LONG_START', -100.25))
+        lon = int(request.args.get('LON_START', -100.25))
 
-        return json.dumps(add_job(long_start=long, lat_start=lat)) + '\n'
+        return json.dumps(add_job(long_start=lon, lat_start=lat)) + '\n'
     
     
 @app.route('/jobs/<job_uuid>', methods=['GET'])
@@ -124,7 +124,7 @@ def get_job_result(job_uuid):
 def download(job_uuid):
     path = f'/app/{job_uuid}.png'
     with open(path, 'wb') as f:
-        f.write(img_db.hget(job_uuid))
+        f.write(img_db.hget(f'job.{job_uuid}'))
     return send_file(path, mimetype='image/png', as_attachment=True)
 
 

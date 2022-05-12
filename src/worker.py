@@ -33,9 +33,9 @@ def execute_job(jid):
     with open('/simple_line.png', 'rb') as f:
         img = f.read()
 
-    img_db.hset(jid, img)
+    img_db.hset(f'job.{jid}', img)
 
-
+    jdb.hset(f'job.{jid}', 'status', 'finished')
 
     # data = []
     # lat = []
