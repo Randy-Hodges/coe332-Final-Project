@@ -30,7 +30,10 @@ def execute_job(jid):
     plt.plot(xval, yval, 'b-')
     plt.savefig('/simple_line.png')
 
+    with open('/simple_line.png', 'rb') as f:
+        img = f.read()
 
+    img_db.hset(f'job.{jid}', 'image', img)
 
 
 
