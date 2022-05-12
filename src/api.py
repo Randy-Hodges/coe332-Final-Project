@@ -60,7 +60,7 @@ def download_data() -> str:
             # NOTE: Could grep a date in the filename to make the keys more consistent
             with open("weather_data.json") as f:
                 json_data = json.load(f)
-                rd.set(str(count), json.dumps(json_data))
+                rd.set("data", json.dumps(json_data))
 
         return 'Data has been loaded to Redis from file\n'
 
@@ -119,7 +119,7 @@ def jobs_wind_speed():
     if request.method == 'GET':
         lat = float(request.args.get('LAT_START', 27.25))
         lon = float(request.args.get('LON_START', -103.25))
-        year = float(request.args.get('YEAR', '2010'))
+        year = (request.args.get('YEAR', '2010'))
 
         return json.dumps(add_job(long_start=lon, lat_start=lat, year=year)) + '\n'
     
