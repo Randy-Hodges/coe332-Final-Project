@@ -78,6 +78,28 @@ A large string listing all entries in the database as a dictionary of dictionari
 For each entry, there is a key containing the latitude, longitude, parameter, and year to represent each unique entry. Each of these keys are paired with a corresponding value pair that contains a dictionary with key:value pairs for the parameter, year, latitude, longitude, wind speeds for all 12 months, and average wind speed in the year.
 
 ## Creating Jobs:
+To submit a job and begin retrieving more organized representations of specific data, we can utilize the route: `curl localhost:<FPORT>/jobs/wind-speed`. This should result in the following return message:
+```
+{"id": "3ed3c11d-0a4b-4d03-a1c9-2f412a74d6a2", "status": "submitted", "type": "line_graph", "PARAMETER": "WS10M", "YEAR": 2010, "LAT": 27.25, "LON": -100.25, "lat_end": 36.75, "long_end": -93.75}
+```
+
+By copying the given `id`, we can check the progress of the job by entering the `id` in place of `<jobid>` in the route: `curl localhost:<FPORT>/jobs/<jobid>`. This should result in an output similar to this:
+```
+{
+  "id": "3ed3c11d-0a4b-4d03-a1c9-2f412a74d6a2",
+  "status": "in progress",
+  "type": "line_graph",
+  "PARAMETER": "WS10M",
+  "YEAR": "2010",
+  "LAT": "27.25",
+  "LON": "-100.25",
+  "lat_end": "36.75",
+  "long_end": "-93.75"
+}
+```
+
+Once the `status` updates to `finished`, we can now start downloading and retrieving the results from our job.
 ## Retrieving Results from Jobs:
+
 ## Setting Up API on Kubernetes:
 ## Integration Testing:
