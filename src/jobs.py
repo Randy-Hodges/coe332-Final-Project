@@ -31,7 +31,7 @@ def _generate_job_key(jid):
     return 'job.{}'.format(jid)
 
 
-def _instantiate_job(jid, status, type, elevation, lat_start , long_start, lat_end , long_end):
+def _instantiate_job(jid, status, type, elevation, year, lat_start , long_start, lat_end , long_end):
     """
     Create the job object description as a python dictionary. Requires the job id, status,
     start and end parameters. types: line_graph, heatmap
@@ -39,11 +39,13 @@ def _instantiate_job(jid, status, type, elevation, lat_start , long_start, lat_e
     return {'id': jid,
             'status': status,
             'type': type,
-            'elevation': elevation,
-            'lat_start': lat_start,
-            'long_start': long_start,
+            'PARAMETER': elevation,
+            'YEAR': year,
+            'LAT': lat_start,
+            'LON': long_start,
             'lat_end': lat_end,
-            'long_end': long_end
+            'long_end': long_end,
+            'key': f'{data["LAT"]}, {data["LON"]}, {data["PARAMETER"]}, {data["YEAR"]}'
             }
 
 
@@ -60,10 +62,10 @@ def _queue_job(jid):
 
 
 def add_job(status="submitted", type="line_graph",  
-                elevation = "10", lat_start = 27.25, long_start=-103.25, lat_end = 36.75, long_end=-93.75):
+                elevation = "WS10M", year = 2010, lat_start = 27.25, long_start=-103.25, lat_end = 36.75, long_end=-93.75):
     """Add a job to the redis queue."""
     jid = _generate_jid()
-    job_dict = _instantiate_job(jid, status, type, elevation, lat_start , long_start, lat_end , long_end)
+    job_dict = _instantiate_job(jid, status, type, elevation, year, lat_start , long_start, lat_end , long_end)
     _save_job(_generate_job_key(jid), job_dict)
     _queue_job(jid)
     return job_dict

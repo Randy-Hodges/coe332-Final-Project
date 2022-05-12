@@ -3,7 +3,7 @@ import csv
 import glob
 import logging
 import os
-from flask import Flask, request
+from flask import Flask, request, jsonify, send_file
 from jobs import rd, jdb, img_db, q, add_job, get_job_by_id
 
 app = Flask(__name__)
@@ -107,8 +107,8 @@ def jobs_wind_speed():
     #     return json.dumps(add_job(job['start'], job['end']), indent=2) + '\n'
 
     if request.method == 'GET':
-        lat = int(request.args.get('LAT_START', 27.25))
-        lon = int(request.args.get('LON_START', -100.25))
+        lat = float(request.args.get('LAT_START', 27.25))
+        lon = float(request.args.get('LON_START', -103.25))
 
         return json.dumps(add_job(long_start=lon, lat_start=lat)) + '\n'
     
