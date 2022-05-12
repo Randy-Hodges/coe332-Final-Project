@@ -18,6 +18,7 @@ With the files downloaded, we can now get started on setting up the images:
 
 ## Interacting with API:
 To get a general overview of how to interact with the app, it is worth viewing the /help route which will give the following output:
+```
   /                    GET    informational; prints this info
   /help                GET    informational; prints this info
   /data                GET    read data in database
@@ -27,6 +28,7 @@ To get a general overview of how to interact with the app, it is worth viewing t
   /jobs/<jid>          GET    info on job
   /jobs/wind-speed     GET    submit a windspeed job
   /download/<jid>      GET    retrieve resulting chart from a job
+```
 
     After viewing this, the general workflow of using the app is as follows: 
 - First ensure that the data is up-to-date by using the command “curl -X POST {api-route}/data”. This will either create the data in the database (if the database was empty) or update the data in the database. 
