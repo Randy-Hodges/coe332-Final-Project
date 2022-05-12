@@ -27,12 +27,12 @@ def execute_job(jid):
     yval = []
 
     for month in xval:
-        yval.append(stored_data[month])
+        yval.append(float(stored_data[month]))
 
     plt.xlabel("Months")
     plt.ylabel("Wind Speed")
     plt.title(f'Wind Speed in {data["YEAR"]} at Lat = {data["LAT"]} and Lon = {data["LON"]}')
-    plt.scatter(xval, yval, 'b-')
+    plt.plot(xval, yval)
     plt.savefig('/simple_line.png')
 
     with open('/simple_line.png', 'rb') as f:
