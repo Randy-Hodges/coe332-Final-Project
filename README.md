@@ -10,3 +10,8 @@ To start, load all of the files in this repository to your machine. To do so:
 3. All files should be in that directory; check by inputting `ls`
 
 ## Setting Up API on ISP02:
+## Interacting with API:
+## Creating Jobs:
+## Retrieving Results from Jobs:
+## Setting Up API on Kubernetes:
+## Integration Testing:
