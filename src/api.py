@@ -190,6 +190,7 @@ def info():
   /help                GET    informational
   /data                GET    read data in database
   /data                POST   upload data to database
+  /delete-data         GET    clears (deletes) all of the data in the redis database
         
   /jobs                GET    info on how to submit job
   /jobs/<jobid>        GET    info on job
